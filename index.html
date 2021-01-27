@@ -17,7 +17,7 @@
 
 		.task-item {
 			display: inline-block;
-			width: 200px;
+			width: 650px;
 		}
 
 	</style>
@@ -59,7 +59,12 @@
 
 			console.log('adding a task...' + newTask.value );
 
-			tasks.push(newTask.value);
+			tasks.push({
+				id: Date.now(),
+				name: newTask.value,
+				status: false,
+				created: new Date()
+			});
 
 			newTask.value = '';
 
@@ -92,9 +97,10 @@
 
 				let taskText = document.createElement('span');
 				taskText.classList.add('task-item');
-				taskText.innerText = task;
+				taskText.innerText = task.name + ", created at: " + task.created.toTimeString();
 
 				let taskRemove = document.createElement('button');
+				taskRemove.dataset.id = task.id;
 				taskRemove.innerText = 'Remove';
 				taskRemove.classList.add('btn');
 				taskRemove.classList.add('btn-danger');
@@ -116,10 +122,10 @@
 
 		function removeTask(event) {
 
-			// console.log(event.target.previousSibling.innerText);
+			// console.log(event.target);
 
 			tasks = tasks.filter(function(task) {
-				if (task == event.target.previousSibling.innerText) {
+				if (task.id == event.target.dataset.id) {
 					return false;
 				}
 				else {

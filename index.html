@@ -88,16 +88,22 @@
 				taskDone.type = 'checkbox';
 				taskDone.addEventListener('change', function(event) {
 					if (event.target.checked) {
+						task.status = true;
 						event.target.nextSibling.classList.add('done');
 					}
 					else {
+						task.status = false;
 						event.target.nextSibling.classList.remove('done');
 					}
 				});
 
 				let taskText = document.createElement('span');
 				taskText.classList.add('task-item');
-				taskText.innerText = task.name + ", created at: " + task.created.toTimeString();
+				if (task.status == true) {
+					taskText.classList.add('done');
+					taskDone.checked = true;
+				}
+				taskText.innerText = task.name + ", created at: " + toPrettyDate(task.created);
 
 				let taskRemove = document.createElement('button');
 				taskRemove.dataset.id = task.id;
@@ -118,6 +124,42 @@
 
 			// taskList.innerHTML = taskHtml;
 
+		}
+
+		function toPrettyDate(date) {
+			return toShortDate(date) + " " + toShortTime(date);
+		}
+
+		function toShortDate(date) {
+			let month = date.getMonth() + 1;
+			let day = date.getDate();
+			let year = date.getFullYear();
+
+			let shortDate = month + "/" + day + "/" + year;
+			return shortDate;
+		}
+
+		function toShortTime(date) {
+			let hours = date.getHours();
+			let minutes = date.getMinutes();
+			let seconds = date.getSeconds();
+			let ampm = "am";
+
+			if (hours > 12) {
+				hours -= 12;
+				ampm = "pm";
+			}
+
+			if (minutes < 10) {
+				minutes = "0" + minutes;
+			}
+
+			if (seconds < 10) {
+				seconds = "0" + seconds;
+			}
+
+			let time = hours + ":" + minutes + ":" + seconds + " " + ampm;
+			return time;
 		}
 
 		function removeTask(event) {

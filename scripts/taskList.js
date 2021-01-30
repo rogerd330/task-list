@@ -17,9 +17,20 @@ export class TaskList {
         this.listTasks();
     }
 
-    // removeTask(task) {
-    //     console.log('can\'t remove task yet');
-    // }
+    removeTask(event) {
+        console.log("Removing Task ID # " + event.target.dataset.id);
+
+        this.tasks = this.tasks.filter(function(task) {
+            if (task.id == event.target.dataset.id) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        });
+
+        this.listTasks();
+    }
 
     clear() {
         this.tasks = [];
@@ -29,6 +40,7 @@ export class TaskList {
 
     listTasks() {
         let taskList = document.getElementById('task-list');
+        let removeHandler = this.removeTask.bind(this);
 
         taskList.innerHTML = '';
 
@@ -63,10 +75,7 @@ export class TaskList {
             taskRemove.classList.add('btn');
             taskRemove.classList.add('btn-danger');
             // taskRemove.innerHTML = '<i class="fas fa-trash-can"></i>';
-            taskRemove.addEventListener('click', function(event) {
-                console.log('this isn\'t working yet, sorry.');
-                // console.log(event.target.dataset.id);
-            });
+            taskRemove.addEventListener('click', removeHandler);
 
             newTask.appendChild(taskDone);
             newTask.appendChild(taskText);

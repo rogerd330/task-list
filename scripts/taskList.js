@@ -9,7 +9,7 @@ export class TaskList {
 
     addTask(name) {
         // console.log('can\'t add task yet');
-        let task = new Task(this.tasks.length, name);
+        let task = new Task(Date.now(), name);
         this.tasks.push(task);
         console.log("Added: " + task.getInfo());
         console.log(this.tasks);

@@ -9,14 +9,22 @@ export class TaskList {
 
     addTask(name) {
         // console.log('can\'t add task yet');
-        this.tasks.push(new Task(this.tasks.length, name));
+        let task = new Task(this.tasks.length, name);
+        this.tasks.push(task);
+        console.log("Added: " + task.getInfo());
         console.log(this.tasks);
 
         this.listTasks();
     }
 
-    removeTask(task) {
-        console.log('can\'t remove task yet');
+    // removeTask(task) {
+    //     console.log('can\'t remove task yet');
+    // }
+
+    clear() {
+        this.tasks = [];
+        this.listTasks();
+        console.log("Cleared the list!");
     }
 
     listTasks() {
@@ -31,12 +39,12 @@ export class TaskList {
             let taskDone = document.createElement('input');
             taskDone.type = 'checkbox';
             taskDone.addEventListener('change', function(event) {
+                task.toggleStatus();
+
                 if (event.target.checked) {
-                    task.status = true;
                     event.target.nextSibling.classList.add('done');
                 }
                 else {
-                    task.status = false;
                     event.target.nextSibling.classList.remove('done');
                 }
             });
@@ -47,7 +55,7 @@ export class TaskList {
                 taskText.classList.add('done');
                 taskDone.checked = true;
             }
-            taskText.innerText = task.name + ", created at: " + task.toPrettyDate();
+            taskText.innerText = task.getInfo();
 
             let taskRemove = document.createElement('button');
             taskRemove.dataset.id = task.id;
@@ -55,7 +63,10 @@ export class TaskList {
             taskRemove.classList.add('btn');
             taskRemove.classList.add('btn-danger');
             // taskRemove.innerHTML = '<i class="fas fa-trash-can"></i>';
-            taskRemove.addEventListener('click', removeTask);
+            taskRemove.addEventListener('click', function(event) {
+                console.log('this isn\'t working yet, sorry.');
+                // console.log(event.target.dataset.id);
+            });
 
             newTask.appendChild(taskDone);
             newTask.appendChild(taskText);
